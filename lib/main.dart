@@ -1,41 +1,37 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:myprice/providers/dataProvider.dart';
+import 'package:myprice/router/router.dart' as route;
+import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 
-void main() => runApp(MyApp());
+List<SingleChildWidget> providers = [
+  ChangeNotifierProvider<DataProvider>(create: (_) => DataProvider()),
+];
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+void main() {
+  runApp(
+    MultiProvider(
+      providers: providers,
+      child: RouterConfig(),
+    ),
+  );
+}
+// void main() => runApp(SplashScreen());
+
+class RouterConfig extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // Application name
-      title: 'Flutter Hello World',
-      // Application theme data, you can set the colors for the application as
-      // you want
+      title: 'Splash Screen',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
-      // A widget which will be started on application startup
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  final String title;
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // The title text which will be shown on the action bar
-        title: Text(title),
-      ),
-      body: Center(
-        child: Text(
-          'Hello, World!',
-        ),
-      ),
+      debugShowCheckedModeBanner: false,
+      onGenerateRoute: route.controller,
+      // initialRoute: route.splash,
+      initialRoute: route.intro,
     );
   }
 }
